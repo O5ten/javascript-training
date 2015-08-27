@@ -162,9 +162,6 @@ var world = new World(plan, {
     "0": BouncingCritter
 });
 
-exports.turn = world.turn();
-exports.toString = world.toString();
-
 function View(world, vector) {
     this.world = world;
     this.vector = vector;
@@ -186,8 +183,8 @@ View.prototype.findAll = function (ch) {
         if (this.look(dir) == ch) {
             found.push(dir)
         }
-        return found;
     }
+    return found;
 };
 
 View.prototype.find = function (ch) {
