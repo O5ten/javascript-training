@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<HTML>
+<HEAD>
+    <meta charset="UTF-8">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <title>
+        JQuery/Jide Sandbox
+    </title>
+</HEAD>
+<BODY>
+<DIV class="toolbar">
+    <BUTTON onclick="showCoordinates = !showCoordinates">Show coordinates</BUTTON>
+    <BUTTON onclick="followMouse = !followMouse">Animate</BUTTON>
+    <BUTTON onclick="clearCanvas()">Clear</BUTTON>
+    <BUTTON onclick="mousePressed = !mousePressed">Draw</BUTTON>
+</DIV>
+<canvas id="myCanvas" width="700" height="700"></canvas>
+<script>
+    var c = document.getElementById("myCanvas");
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+    var showCoordinates = false;
+    var mousePressed = false, followMouse = true;
+
+    function clearCanvas() {
+        if (!mousePressed) {
+            ctx.clearRect(0, 0, window.outerWidth, window.outerHeight);
+        }
+    }
+
+    c.addEventListener("click", function (event) {
+        xCenter = event.x;
+        yCenter = event.y;
+        followMouse = !followMouse;
+    }, false);
+
+    window.addEventListener("mousemove", function (event) {
+        if (followMouse) {
+            x = event.x;
+            y = event.y;
+            paint();
+            ctx.strokeText("Movement at " + event.pageX + ", " + event.pageY, event.pageX, event.pageY);
+        }
+    }, false);
+
+    window.addEventListener("mousedown", function (event) {
+        mousePressed = true;
+    });
+
+
+    window.addEventListener("mouseup", function (event) {
+        mousePressed = false;
+    });
+
+    var ctx = c.getContext("2d");
+    var x = window.innerWidth / 2, y = window.innerHeight / 2, r = 60, xModifier = 0, yModifier = 1, xCenter = x, yCenter = y;
+
+
+    function paint() {
+        clearCanvas();
+        ctx.fillStyle = "#000000";
+        if (showCoordinates) {
+            ctx.strokeText("X: " + x, 500, 100);
+            ctx.strokeText("Y: " + y, 500, 115);
+        }
+        ctx.fillStyle = "#FF0000";
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, 2 * Math.PI);
+        ctx.stroke();
+        x = xCenter + r * (Math.cos(xModifier) + Math.sin(xModifier));
+        y = yCenter + r * (Math.cos(yModifier) + Math.sin(yModifier));
+        xModifier = xModifier + 0.1;
+        yModifier = yModifier + 0.1;
+    }
+
+    function loop() {
+        if (!followMouse) {
+            paint();
+        }
+        setTimeout(loop, 50);
+    }
+    $(document).ready(loop);
+</script>
+
+</BODY>
+</HTML>

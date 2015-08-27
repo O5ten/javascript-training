@@ -1,0 +1,35 @@
+body {
+    background: linear-gradient(#bababa, linen);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right bottom, left top;
+}
+
+h1 {
+    color: orange;
+    text-align: left;
+}
+
+.title {
+    color: #2C2C2C;
+    text-align: left;
+}
+
+#pink {
+    color: hotpink;
+    text-align: left;
+}
+
+#blue {
+    color: #000088;
+}
+
+#red {
+    color: #880000;
+    text-align: left;
+}
+
+p {
+    font-family: "Times New Roman";
+    font-size: 20px;
+}

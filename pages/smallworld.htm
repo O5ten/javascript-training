@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<HTML>
+<HEAD>
+    <meta charset="UTF-8">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../js/smallworld.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <title>
+        JQuery/Jide Sandbox
+    </title>
+</HEAD>
+<BODY>
+<DIV class="toolbar">
+    <BUTTON onclick="pauseAnimation = !pauseAnimation">Pause animation</BUTTON>
+</DIV>
+<canvas id="myCanvas" width="700" height="700" border="1"></canvas>
+<script>
+    var c = document.getElementById("myCanvas");
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+    var pauseAnimation = false;
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, window.outerWidth, window.outerHeight);
+    }
+
+    var ctx = c.getContext("2d");
+    ctx.font = "15px Monospace";
+    var x = window.innerWidth / 2, y = window.innerHeight / 2;
+
+    function paint() {
+        clearCanvas();
+        world.toString().split("\n").forEach(function (e, i, _) {
+            ctx.strokeText(e, x, y + 11 * i);
+        });
+    }
+
+    function loop() {
+        if (!pauseAnimation) {
+            paint();
+            world.turn();
+        } else {
+            paint();
+            ctx.strokeText("Smallworld Stopped", x, y - 100);
+        }
+        setTimeout(loop, 500);
+    }
+    $(document).ready(loop);
+</script>
+
+</BODY>
+</HTML>
